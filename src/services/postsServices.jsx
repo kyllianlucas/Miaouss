@@ -11,6 +11,9 @@ export const postsServices = {
   getAll: async () => {
     return await database.listDocuments(DATABASE_ID, POSTS_COLLECTION_ID);
   },
+  getOne: async (id) => {
+    return await database.getDocument(DATABASE_ID, MESSAGES_COLLECTION_ID, id);
+  },
   listen: (setPosts) => {
     return client.subscribe(
       [`databases.${DATABASE_ID}.collections.${POSTS_COLLECTION_ID}.documents`],
@@ -18,7 +21,9 @@ export const postsServices = {
         if (
           res.events.includes("databases.*.collections.*.documents.*.create")
         ) {
-          setPosts((prev) => [...prev, res.payload]);
+          messagesServices.getOne(res.payload.$id).then((response) => {
+            setPosts((prev) => [...prev, response]);
+          });
           console.log("element cree :", res.payload);
         }
         if (

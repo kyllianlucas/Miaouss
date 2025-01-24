@@ -15,7 +15,7 @@ export const messagesServices = {
   getOne: async (id) => {
     return await database.getDocument(DATABASE_ID, MESSAGES_COLLECTION_ID, id);
   },
-  listen: (setPosts) => {
+  listen: (setter) => {
     return client.subscribe(
       [
         `databases.${DATABASE_ID}.collections.${MESSAGES_COLLECTION_ID}.documents`,
@@ -25,7 +25,7 @@ export const messagesServices = {
           res.events.includes("databases.*.collections.*.documents.*.create")
         ) {
           messagesServices.getOne(res.payload.$id).then((response) => {
-            setPosts((prev) => [...prev, response]);
+            setter((prev) => [...prev, response]);
           });
 
           console.log("element cree :", res.payload);
@@ -33,9 +33,7 @@ export const messagesServices = {
         if (
           res.events.includes("databases.*.collections.*.documents.*.delete")
         ) {
-          setPosts((prev) =>
-            prev.filter((post) => post.$id !== res.payload.$id)
-          );
+          setter((prev) => prev.filter((post) => post.$id !== res.payload.$id));
           console.log("element supprime :", res.payload);
         }
         if (

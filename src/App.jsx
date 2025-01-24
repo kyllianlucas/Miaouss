@@ -5,8 +5,8 @@ import Login from "./pages/login/LoginPage";
 import Signup from "./pages/signup/SignupPage";
 import PostMessage from "./pages/postMessage";
 import Profile from "./pages/profile/Profile";
-
 import PrivateRoute from "./routes/privateRoute";
+import PostList from "./components/postList";
 
 // Pages
 const Home = () => (
@@ -54,6 +54,7 @@ function App() {
             <Route path="/chat" element={<Chat />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/post" element={<PostMessage />} />
+            <Route path="/posts" element={<PostList />} />
           </Route>
         </Route>
       </Routes>
