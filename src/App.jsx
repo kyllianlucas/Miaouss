@@ -4,6 +4,7 @@ import MainLayout from "./pages/layout/mainLayout";
 import ChatList from "./components/chatList";
 import Login from "./pages/login/LoginPage";
 import Signup from "./pages/signup/SignupPage";
+import PostMessage from "./pages/postMessage";
 
 // Pages
 const Home = () => (
@@ -49,6 +50,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/chat" element={<ChatList />} />
+            <Route path="/post" element={<PostMessage />} />
           </Route>
         </Route>
       </Routes>
@@ -56,5 +58,4 @@ function App() {
   );
 }
 
-export default App;
 export default App;
