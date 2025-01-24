@@ -8,7 +8,7 @@ const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isLoading, setLoading] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     checkUser().then(() => setLoading(false));
@@ -19,6 +19,7 @@ export default function AuthProvider({ children }) {
     try {
       const res = await account.get();
       if (res) {
+        console.log(res);
         const userInfos = await userServices.getUser(res.$id);
         console.log(userInfos);
         setUser(userInfos);
@@ -37,7 +38,9 @@ export default function AuthProvider({ children }) {
         userInfos.password
       );
       if (res) {
-        const userInfos = await userServices.getUser(res.$id);
+        console.log(res);
+        const userInfos = await userServices.getUser(res.userId);
+        console.log(userInfos);
         setUser(userInfos);
       }
     } catch (error) {
