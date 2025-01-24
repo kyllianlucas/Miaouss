@@ -1,26 +1,24 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
+import PostItem from "./postItem";
+import { postsServices } from "@/services/postsServices";
 
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+export default function PostList() {
+  const [posts, setPosts] = useState([]);
 
-const tags = Array.from({ length: 50 }).map(
-  (_, i, a) => `v1.2.0-beta.${a.length - i}`
-);
+  useEffect(() => {
+    postsServices.getAll().then((resp) => setPosts(resp.documents));
+    const unsub = postsServices.listen(setPosts);
 
-export function ScrollAreaDemo() {
+    return () => {
+      unsub();
+    };
+  }, [posts]);
+
   return (
-    <ScrollArea className="h-72 w-48 rounded-md border">
-      <div className="p-4">
-        <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
-        {tags.map((tag) => (
-          <>
-            <div key={tag} className="text-sm">
-              {tag}
-            </div>
-            <Separator className="my-2" />
-          </>
-        ))}
-      </div>
-    </ScrollArea>
+    <div>
+      {posts.map((post) => {
+        return <PostItem post={post} />;
+      })}
+    </div>
   );
 }

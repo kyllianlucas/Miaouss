@@ -4,6 +4,7 @@ import MainLayout from "./pages/layout/mainLayout";
 import ChatList from "./components/chatList";
 import Login from "./pages/login/LoginPage";
 import Signup from "./pages/signup/SignupPage";
+import PostList from "./components/postList";
 
 // Pages
 const Home = () => (
@@ -49,6 +50,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/chat" element={<ChatList />} />
+            <Route path="/posts" element={<PostList />} />
           </Route>
         </Route>
       </Routes>
