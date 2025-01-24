@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { createContext } from "vm";
+import React, { useEffect, useState, useContext, createContext } from "react";
 import { account } from "./db";
 import { toast } from "react-toastify";
 import userServices from "./services/userServices";
@@ -11,7 +10,7 @@ export default function AuthProvider({ children }) {
   const [isLoading, setLoading] = useState(null);
 
   useEffect(() => {
-    checkUser.then(() => setLoading(false));
+    checkUser().then(() => setLoading(false));
   }, []);
 
   //Récupérer le user connecté
@@ -75,4 +74,19 @@ export default function AuthProvider({ children }) {
       const notify = () => toast("Une erreur est survenue");
     }
   };
+
+  const contextData = {
+    user: user,
+    login,
+    logout,
+    createAccount,
+  };
+
+  return (
+    <AuthContext.Provider value={contextData}>
+      {isLoading ? "" : children}
+    </AuthContext.Provider>
+  );
 }
+
+export const useAuth = () => useContext(AuthContext);
