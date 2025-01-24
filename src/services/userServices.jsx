@@ -28,7 +28,20 @@ const userServices = {
       const notify = () => toast("Une erreur est survenue");
     }
   },
+
+  updateUser: async (id, userInfos) => {
+    try {
+      const res = await database.updateDocument(
+        DATABASE_ID,
+        USERS_COLLECTION_ID,
+        id,
+        userInfos
+      );
+    } catch (error) {
+      console.log(error);
+      const notify = () => toast("Une erreur est survenue");
+    }
+  },
 };
 
 export default userServices;
-
