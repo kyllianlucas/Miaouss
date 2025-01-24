@@ -11,9 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/AuthProvider";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function SignupForm({ className, ...props }) {
   const [validePassword, setValidePassword] = useState(true);
+  const navigate = useNavigate();
 
   const { createAccount } = useAuth();
   const validate = (e) => {
@@ -29,6 +31,7 @@ export function SignupForm({ className, ...props }) {
         password: formData.get("pass"),
       };
       createAccount(userInfos);
+      navigate("/login");
     } else {
       setValidePassword(false);
     }
@@ -82,7 +85,7 @@ export function SignupForm({ className, ...props }) {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="Bobibob"
+                  placeholder="donald.trump@gmail.com"
                   required
                 />
                 <Label htmlFor="pass">Mot de passe</Label>

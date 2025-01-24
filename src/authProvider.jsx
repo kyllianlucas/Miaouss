@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, createContext } from "react";
 import { account } from "./db";
 import { toast } from "react-toastify";
 import userServices from "./services/userServices";
+import { ID } from "appwrite";
 
 const AuthContext = createContext();
 
@@ -52,6 +53,7 @@ export default function AuthProvider({ children }) {
   //Creer un compte
   const createAccount = async (userInfos) => {
     try {
+      console.log("Données envoyées:", JSON.stringify(userInfos));
       const res = await account.create(
         ID.unique(),
         userInfos.email,
@@ -64,8 +66,8 @@ export default function AuthProvider({ children }) {
           email: userInfos.email,
           userName: userInfos.userName,
           birthdate: userInfos.birthdate,
-          firstName: firstName,
-          lastName: lastName,
+          firstName: userInfos.firstName,
+          lastName: userInfos.lastName,
           id: res.$id,
         });
       }
