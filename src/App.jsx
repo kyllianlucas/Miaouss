@@ -4,6 +4,7 @@ import MainLayout from "./pages/layout/mainLayout";
 import ChatList from "./components/chatList";
 import Login from "./pages/login/LoginPage";
 import Signup from "./pages/signup/SignupPage";
+import Profile from "./pages/profile/Profile";
 
 // Pages
 const Home = () => (
@@ -48,6 +49,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
+            <Route path="/profile" element={<Profile />} />
             <Route path="/chat" element={<ChatList />} />
           </Route>
         </Route>
