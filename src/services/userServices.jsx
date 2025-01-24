@@ -1,4 +1,5 @@
 import { database, DATABASE_ID, USERS_COLLECTION_ID } from "@/db";
+import { Query } from "appwrite";
 import React from "react";
 
 const userServices = {
@@ -20,9 +21,7 @@ const userServices = {
   //Récup un user avec son id
   getUser: async (id) => {
     try {
-      return await database.listDocuments(DATABASE_ID, USERS_COLLECTION_ID, [
-        Query.equal("id", [id]),
-      ]);
+      return await database.getDocument(DATABASE_ID, USERS_COLLECTION_ID, id);
     } catch (error) {
       console.log(error);
       const notify = () => toast("Une erreur est survenue");
@@ -31,4 +30,3 @@ const userServices = {
 };
 
 export default userServices;
-

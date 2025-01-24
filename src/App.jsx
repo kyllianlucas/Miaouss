@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { postsServices } from "./services/postsServices";
+import { useAuth } from "./authProvider";
 
 function App() {
   const [posts, setPosts] = useState([]);
-
+  const { login, user } = useAuth();
   useEffect(() => {
     postsServices.getAll().then((res) => setPosts(res.documents));
     const unsub = postsServices.listen(setPosts);
@@ -14,10 +15,19 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    console.log(posts);
+  }, [posts]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target[0].value);
-    //postsServices.post(e)
+    login({ email: "a@a.fr", password: "testtest" });
+    const post = {
+      content: e.target[0].value,
+      users: user,
+    };
+    console.log(post);
+    postsServices.post(post);
   };
   return (
     <>
@@ -28,7 +38,11 @@ function App() {
       </form>
       <ul>
         {posts.map((val) => {
-          return <li key={val.id}>{val}</li>;
+          return (
+            <li style={{ color: "black" }} key={val.$id}>
+              {val.content}
+            </li>
+          );
         })}
       </ul>
     </>

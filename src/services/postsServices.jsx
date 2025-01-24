@@ -3,7 +3,8 @@ import {
   database,
   DATABASE_ID,
   POSTS_COLLECTION_ID,
-} from "../../../Littler/src/db";
+  getUniqueId,
+} from "@/db";
 import { Query } from "appwrite";
 
 export const postsServices = {
@@ -60,11 +61,9 @@ export const postsServices = {
     );
   },
   getAllFromId: async (userId) => {
-    return await database.listDocuments(
-      DATABASE_ID,
-      POSTS_COLLECTION_ID,
-      Query.equal("userId", userId)
-    );
+    return await database.listDocuments(DATABASE_ID, POSTS_COLLECTION_ID, [
+      Query.equal("userId", userId),
+    ]);
   },
   putALike: async (userId, postId) => {
     const isLikedByUser = await database.getDocument(

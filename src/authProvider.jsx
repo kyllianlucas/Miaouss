@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { createContext } from "vm";
+import React, { useEffect, useState, createContext, useContext } from "react";
 import { account } from "./db";
 import { toast } from "react-toastify";
 import userServices from "./services/userServices";
@@ -11,14 +10,17 @@ export default function AuthProvider({ children }) {
   const [isLoading, setLoading] = useState(null);
 
   useEffect(() => {
-    checkUser.then(() => setLoading(false));
+    checkUser().then(() => setLoading(false));
   }, []);
 
   //Récupérer le user connecté
   const checkUser = async () => {
     try {
       const res = await account.get();
-      res ? setUser(userServices.getUser(res.$id)) : "";
+      if (res) {
+        const user = await userServices.getUser(res.$id);
+        setUser(user.documents);
+      }
     } catch (error) {
       console.log(error);
       const notify = () => toast("Une erreur est survenue");
@@ -32,7 +34,10 @@ export default function AuthProvider({ children }) {
         userInfos.email,
         userInfos.password
       );
-      res ? setUser(userServices.getUser(res.$id)) : "";
+      if (res) {
+        const user = await userServices.getUser(res.$id);
+        setUser(user.documents);
+      }
     } catch (error) {
       console.log(error);
       const notify = () => toast("Une erreur est survenue");
@@ -75,4 +80,19 @@ export default function AuthProvider({ children }) {
       const notify = () => toast("Une erreur est survenue");
     }
   };
+
+  const contextData = {
+    user: user,
+    login,
+    logout,
+    createAccount,
+  };
+
+  return (
+    <AuthContext.Provider value={contextData}>
+      {isLoading ? "" : children}
+    </AuthContext.Provider>
+  );
 }
+
+export const useAuth = () => useContext(AuthContext);
