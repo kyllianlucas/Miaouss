@@ -5,46 +5,45 @@ import { useAuth } from "@/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/label";
+import userServices from "@/services/userServices";
 
-function ProfileData(user) {
+function ProfileData() {
   const [profileEdit, setProfileEdit] = useState(false);
 
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  let data = {
-    firstname: user.firstname ?? "user.firstname",
-    lastname: user.lastname ?? "user.lastname",
-    username: user.username ?? "user.username",
-    email: user.email ?? "user.email",
-    birthdate: user.birthdate ?? "user.birthdate",
+  const formatDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    return d.toISOString().split("T")[0];
   };
-  user = data;
 
-  const handleSave = () => {
-    console.log("Save");
-    setProfileEdit(!profileEdit);
+  let data = {
+    firstname: user?.firstName ?? "",
+    lastname: user?.lastName ?? "",
+    username: user?.userName ?? "",
+    email: user?.email ?? "",
+    birthdate: formatDate(user?.birthdate) ?? "",
   };
 
   const validate = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    if (formData.get("pass") === formData.get("passBis")) {
-      const userInfos = {
-        firstName: formData.get("firstName"),
-        lastName: formData.get("lastName"),
-        userName: formData.get("userName"),
-        birthdate: formData.get("birthdate"),
-      };
-      createAccount(userInfos);
-      navigate("/login");
-    } else {
-      setValidePassword(false);
-    }
+
+    const userInfos = {
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      userName: formData.get("userName"),
+      birthdate: formData.get("birthdate"),
+    };
+
+    userServices.updateUser(user.$id, userInfos);
+    setProfileEdit(!profileEdit);
+    navigate(0);
   };
 
   const handleLogout = () => {
-    console.log("Logout");
     logout();
     navigate("/login");
   };
@@ -64,27 +63,27 @@ function ProfileData(user) {
 
           <div className="flex justify-between items-center border-b pb-3">
             <Label className="text-gray-700 font-medium">Firstname:</Label>
-            <Label className="text-gray-900">{user.firstname}</Label>
+            <Label className="text-gray-900">{data.firstname}</Label>
           </div>
 
           <div className="flex justify-between items-center border-b pb-3">
             <Label className="text-gray-700 font-medium">Lastname:</Label>
-            <Label className="text-gray-900">{user.lastname}</Label>
+            <Label className="text-gray-900">{data.lastname}</Label>
           </div>
 
           <div className="flex justify-between items-center border-b pb-3">
             <Label className="text-gray-700 font-medium">Username:</Label>
-            <Label className="text-gray-900">{user.username}</Label>
+            <Label className="text-gray-900">{data.username}</Label>
           </div>
 
           <div className="flex justify-between items-center border-b pb-3">
             <Label className="text-gray-700 font-medium">Email:</Label>
-            <Label className="text-gray-900">{user.email}</Label>
+            <Label className="text-gray-900">{data.email}</Label>
           </div>
 
           <div className="flex justify-between items-center border-b pb-3">
             <Label className="text-gray-700 font-medium">Birthdate:</Label>
-            <Label className="text-gray-900">{user.birthdate}</Label>
+            <Label className="text-gray-900">{data.birthdate}</Label>
           </div>
         </div>
       ) : (
@@ -103,35 +102,35 @@ function ProfileData(user) {
                 name="firstName"
                 className="w-2/3 p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
                 type="firstName"
-                defaultValue={user.firstname}
+                defaultValue={data.firstname}
               />
             </div>
 
             <div className="flex justify-between items-center border-b pb-3">
               <Label className="text-gray-700 font-medium">Lastname:</Label>
               <Input
-                id="lastname"
-                name="lastname"
+                id="lastName"
+                name="lastName"
                 className="w-2/3 p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
-                type="lastname"
-                defaultValue={user.lastname}
+                type="lastName"
+                defaultValue={data.lastname}
               />
             </div>
 
             <div className="flex justify-between items-center border-b pb-3">
               <Label className="text-gray-700 font-medium">Username:</Label>
               <Input
-                id="username"
-                name="username"
+                id="userName"
+                name="userName"
                 className="w-2/3 p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
-                type="username"
-                defaultValue={user.username}
+                type="userName"
+                defaultValue={data.username}
               />
             </div>
 
             <div className="flex justify-between items-center border-b pb-3">
               <Label className="text-gray-700 font-medium">Email:</Label>
-              <Label className="text-gray-900">{user.email}</Label>
+              <Label className="text-gray-900">{data.email}</Label>
             </div>
 
             <div className="flex justify-between items-center border-b pb-3">
@@ -141,12 +140,12 @@ function ProfileData(user) {
                 name="birthdate"
                 className="w-2/3 p-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
                 type="date"
-                defaultValue={user.birthdate}
+                defaultValue={data.birthdate}
               />
             </div>
             <Button
+              type="submit"
               className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-              onClick={handleSave}
             >
               Save
             </Button>

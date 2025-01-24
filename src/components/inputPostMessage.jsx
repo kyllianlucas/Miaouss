@@ -16,10 +16,14 @@ function InputPostMessage({ user }) {
 
   const addPost = async () => {
     try {
-      await postsServices.post({
+      console.log({
         content: text,
         users: user,
         creationDate: Date.now(),
+      });
+      await postsServices.post({
+        content: text,
+        users: user.$id,
       });
       setText("");
     } catch (error) {
