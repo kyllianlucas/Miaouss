@@ -3,6 +3,7 @@ import Chat from "./pages/chat/chat";
 import MainLayout from "./pages/layout/mainLayout";
 import Login from "./pages/login/LoginPage";
 import Signup from "./pages/signup/SignupPage";
+import PostMessage from "./pages/postMessage";
 import Profile from "./pages/profile/Profile";
 
 import PrivateRoute from "./routes/privateRoute";
@@ -51,6 +52,8 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/chat" element={<Chat />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/post" element={<PostMessage />} />
           </Route>
         </Route>
       </Routes>

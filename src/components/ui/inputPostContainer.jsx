@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-function InputPostContainer() {
+function InputPostContainer({ user }) {
   return (
     <>
       <Card>
@@ -19,7 +19,7 @@ function InputPostContainer() {
           <CardDescription>Racontez votre vie</CardDescription>
         </CardHeader>
         <CardContent>
-          <InputPostMessage />
+          <InputPostMessage user={user} />
         </CardContent>
         <CardFooter>
           <InputPostStyle />

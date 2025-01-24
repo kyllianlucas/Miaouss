@@ -1,12 +1,14 @@
+import { useAuth } from "@/authProvider";
 import InputPostContainer from "@/components/ui/inputPostContainer";
 import React from "react";
 
-function postMessage() {
+function PostMessage() {
+  const { user } = useAuth();
   return (
     <>
-      <InputPostContainer />
+      <InputPostContainer user={user} />
     </>
   );
 }
 
-export default postMessage;
+export default PostMessage;

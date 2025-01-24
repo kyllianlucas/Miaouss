@@ -2,15 +2,50 @@ import React from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
+import { useState } from "react";
+import { postsServices } from "@/services/postsServices";
+import { useAuth } from "@/authProvider";
+import { useEffect } from "react";
 
-function InputPostMessage() {
+function InputPostMessage({ user }) {
+  const [text, setText] = useState("");
+
+  const handleInput = (e) => {
+    setText(e.target.value);
+  };
+
+  const addPost = async () => {
+    try {
+      console.log({
+        content: text,
+        users: user,
+        creationDate: Date.now(),
+      });
+      await postsServices.post({
+        content: text,
+        users: user.$id,
+      });
+      setText("");
+    } catch (error) {
+      console.log(error);
+      const notify = () =>
+        toast("Une erreur est survenue lors de la création du post");
+    }
+  };
+
   return (
     <>
       <div className="grid grid-cols-6 gap-5 w-full items-center justify-center">
         <div className="col-span-5">
-          <Textarea type="textarea" placeholder="Rédigez votre post..." />
+          <Textarea
+            type="textarea"
+            placeholder="Rédigez votre post..."
+            rows="7"
+            onChange={handleInput}
+            value={text}
+          />
         </div>
-        <Button>Envokjjjjyer</Button>
+        <Button onClick={addPost}>Envoyer</Button>
       </div>
     </>
   );
