@@ -19,8 +19,9 @@ export default function AuthProvider({ children }) {
     try {
       const res = await account.get();
       if (res) {
-        const user = await userServices.getUser(res.$id);
-        setUser(user.documents);
+        const userInfos = await userServices.getUser(res.$id);
+        console.log(userInfos);
+        setUser(userInfos);
       }
     } catch (error) {
       console.log(error);
@@ -36,8 +37,8 @@ export default function AuthProvider({ children }) {
         userInfos.password
       );
       if (res) {
-        const user = await userServices.getUser(res.$id);
-        setUser(user.documents);
+        const userInfos = await userServices.getUser(res.$id);
+        setUser(userInfos);
       }
     } catch (error) {
       console.log(error);

@@ -6,11 +6,14 @@ import {
   MESSAGES_COLLECTION_ID,
   LIKES_COLLECTION_ID,
   getUniqueId,
-} from "../../../Littler/src/db";
+} from "@/db";
 
 export const messagesServices = {
   getAll: async () => {
     return await database.listDocuments(DATABASE_ID, MESSAGES_COLLECTION_ID);
+  },
+  getOne: async (id) => {
+    return await database.getDocument(DATABASE_ID, MESSAGES_COLLECTION_ID, id);
   },
   listen: (setPosts) => {
     return client.subscribe(
@@ -21,7 +24,10 @@ export const messagesServices = {
         if (
           res.events.includes("databases.*.collections.*.documents.*.create")
         ) {
-          setPosts((prev) => [...prev, res.payload]);
+          messagesServices.getOne(res.payload.$id).then((response) => {
+            setPosts((prev) => [...prev, response]);
+          });
+
           console.log("element cree :", res.payload);
         }
         if (
