@@ -10,9 +10,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm({ className, ...props }) {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const validate = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -21,6 +23,10 @@ export function LoginForm({ className, ...props }) {
       password: formData.get("pass"),
     };
     login(userInfos);
+  };
+
+  const handleSignup = () => {
+    navigate("/signup");
   };
 
   return (
@@ -57,6 +63,9 @@ export function LoginForm({ className, ...props }) {
               </Button>
             </div>
           </form>
+          <button onClick={handleSignup} className="w-full">
+            <span className="text-blue-500">Signup</span>
+          </button>
         </CardContent>
       </Card>
     </div>

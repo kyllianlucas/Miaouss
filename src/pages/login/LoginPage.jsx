@@ -8,7 +8,7 @@ export default function Login() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    user ? navigate("/") : "";
+    user ? navigate("/profile") : "";
   }, [user]);
 
   return (
