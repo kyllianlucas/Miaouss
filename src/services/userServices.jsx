@@ -4,7 +4,6 @@ import React from "react";
 const userServices = {
   //Créer un utilisateur
   createUser: async (id, userInfos) => {
-    console.log("Données envoyées:", JSON.stringify(userInfos));
     try {
       const res = await database.createDocument(
         DATABASE_ID,

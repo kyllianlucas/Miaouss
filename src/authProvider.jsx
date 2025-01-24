@@ -32,7 +32,11 @@ export default function AuthProvider({ children }) {
         userInfos.email,
         userInfos.password
       );
-      res ? setUser(userServices.getUser(res.$id)) : "";
+      res
+        ? userServices
+            .getUser(res.$id)
+            .then((response) => console.log(response))
+        : "";
     } catch (error) {
       console.log(error);
       const notify = () => toast("Une erreur est survenue");

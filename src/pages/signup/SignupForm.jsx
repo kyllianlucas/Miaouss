@@ -37,6 +37,10 @@ export function SignupForm({ className, ...props }) {
     }
   };
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -119,6 +123,10 @@ export function SignupForm({ className, ...props }) {
               </Button>
             </div>
           </form>
+
+          <button onClick={handleLogin} className="w-full">
+            <span className="text-blue-500">Login</span>
+          </button>
         </CardContent>
       </Card>
     </div>
