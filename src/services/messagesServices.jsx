@@ -89,7 +89,15 @@ export const messagesServices = {
         ])
       );
       return sendLike;
+    } else {
+      return await database.deleteDocument(
+        DATABASE_ID,
+        LIKES_COLLECTION_ID,
+        Query.and([
+          Query.equal("collectionId", messageId),
+          Query.equal("userId", userId),
+        ])
+      );
     }
-    return;
   },
 };

@@ -18,7 +18,10 @@ export default function AuthProvider({ children }) {
   const checkUser = async () => {
     try {
       const res = await account.get();
-      res ? setUser(userServices.getUser(res.$id)) : "";
+      if (res) {
+        const user = await userServices.getUser(res.$id);
+        setUser(user.documents);
+      }
     } catch (error) {
       console.log(error);
       const notify = () => toast("Une erreur est survenue");
@@ -32,7 +35,10 @@ export default function AuthProvider({ children }) {
         userInfos.email,
         userInfos.password
       );
-      res ? setUser(userServices.getUser(res.$id)) : "";
+      if (res) {
+        const user = await userServices.getUser(res.$id);
+        setUser(user.documents);
+      }
     } catch (error) {
       console.log(error);
       const notify = () => toast("Une erreur est survenue");
