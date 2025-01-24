@@ -63,11 +63,11 @@ export default function AuthProvider({ children }) {
       if (res) {
         const user = await userServices.createUser(res.$id, {
           email: userInfos.email,
-          password: userInfos.password,
           userName: userInfos.userName,
-          birthday: userInfos.birthday,
+          birthdate: userInfos.birthdate,
           firstName: firstName,
           lastName: lastName,
+          id: res.$id,
         });
       }
     } catch (error) {
