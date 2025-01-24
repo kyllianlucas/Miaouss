@@ -1,10 +1,11 @@
 import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import PrivateRoute from "./routes/privateRoute";
+import Chat from "./pages/chat/chat";
 import MainLayout from "./pages/layout/mainLayout";
-import ChatList from "./components/chatList";
 import Login from "./pages/login/LoginPage";
 import Signup from "./pages/signup/SignupPage";
 import Profile from "./pages/profile/Profile";
+
+import PrivateRoute from "./routes/privateRoute";
 
 // Pages
 const Home = () => (
@@ -49,8 +50,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/chat" element={<ChatList />} />
+            <Route path="/chat" element={<Chat />} />
           </Route>
         </Route>
       </Routes>
