@@ -35,6 +35,7 @@ const Hero = () => (
 // App Component
 function App() {
   return (
+
     <Router>
         <main className="">
           <Routes>
